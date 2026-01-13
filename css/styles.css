@@ -4201,6 +4201,9 @@ textarea.form-control-lg {
   border: var(--bs-card-border-width) solid var(--bs-card-border-color);
   border-radius: var(--bs-card-border-radius);
 }
+.card h2 {
+  margin-bottom: 1.5rem; /* 24px 정도 */
+}
 .card > hr {
   margin-right: 0;
   margin-left: 0;
