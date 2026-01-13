@@ -625,6 +625,31 @@ progress {
   color: #6c757d;
 }
 
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 12px;
+}
+
+.contact-list li {
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.contact-list strong {
+  display: inline-block;
+  width: 70px; /* 라벨 정렬용 */
+}
+
+.contact-list a {
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+.contact-list a:hover {
+  text-decoration: underline;
+}
+
 .container,
 .container-fluid,
 .container-xxl,
