@@ -49,14 +49,14 @@ const journey = [
             <p class="label">{featured.label}</p>
             <h3 class="heading-card mt-2">{featured.title}</h3>
             <p class="body-muted mt-3 max-w-[420px]">{featured.summary}</p>
-            <span class="icon-circle mt-8 group-hover:bg-accent group-hover:text-white md:mt-auto">
+            <span class="icon-circle mt-8 group-hover:bg-accent group-hover:text-on-accent md:mt-auto">
               <Icon name="arrow-right" />
             </span>
           </div>
           <div class="relative h-[320px] md:h-auto">
             <div
               class="absolute inset-x-6 -bottom-6 top-0 overflow-hidden rounded-t-[24px] transition duration-500 group-hover:-translate-y-2 md:inset-x-auto md:top-10 md:right-10 md:w-[340px]"
-              style="box-shadow: 0 0 0 1px rgb(255 255 255 / 0.08), 0 30px 60px rgb(0 0 0 / 0.5);"
+              style="box-shadow: 0 0 0 1px rgb(var(--fg-rgb) / 0.08), 0 30px 60px rgb(0 0 0 / 0.5);"
             >
               <Image src={featured.image} alt={featured.imageAlt} class="size-full object-cover object-top" widths={[400, 700]} sizes="340px" />
             </div>
@@ -80,11 +80,11 @@ const journey = [
               </div>
               <div
                 class="absolute right-7 -bottom-8 left-[84px] top-[240px] sm:top-[300px] overflow-hidden rounded-t-[20px] sm:right-10 sm:left-[100px] transition duration-500 group-hover:-translate-y-2"
-                style="box-shadow: 0 0 0 1px rgb(255 255 255 / 0.08), 0 30px 60px rgb(0 0 0 / 0.5);"
+                style="box-shadow: 0 0 0 1px rgb(var(--fg-rgb) / 0.08), 0 30px 60px rgb(0 0 0 / 0.5);"
               >
                 <Image src={p.image} alt={p.imageAlt} class="size-full object-cover object-top" widths={[400, 700]} sizes="(min-width: 768px) 400px, 90vw" />
               </div>
-              <span class="icon-circle absolute bottom-7 left-7 z-10 backdrop-blur group-hover:bg-accent group-hover:text-white sm:bottom-10 sm:left-10" style="background: rgb(20 20 20 / 0.8)">
+              <span class="icon-circle absolute bottom-7 left-7 z-10 backdrop-blur group-hover:bg-accent group-hover:text-on-accent sm:bottom-10 sm:left-10" style="background: rgb(var(--card-rgb) / 0.8)">
                 <Icon name="arrow-right" />
               </span>
             </a>
@@ -118,7 +118,7 @@ const journey = [
           <div
             data-reveal="0.1"
             class="card relative min-h-[292px] overflow-hidden"
-            style="background: radial-gradient(120% 100% at 50% 100%, #8b5cf6 0%, #6d28d9 45%, #2e1065 100%);"
+            style="background: radial-gradient(120% 100% at 50% 100%, var(--accent) 0%, var(--accent) 45%, var(--card) 100%);"
           >
             <Image src={profileImg} alt="정재영 프로필" class="absolute inset-x-0 bottom-0 mx-auto w-[300px] max-w-none" widths={[300, 600]} sizes="300px" />
           </div>
@@ -162,10 +162,10 @@ const journey = [
             <p class="body-muted mt-3">주로 사용하는 언어와 관심 분야예요.</p>
             <ul class="mt-auto flex flex-wrap gap-2 pt-8">
               {languages.map((l) => (
-                <li class="rounded-full px-4 py-2 text-[14px] text-fg" style="background: rgb(255 255 255 / 0.06); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.06)">{l}</li>
+                <li class="rounded-full px-4 py-2 text-[14px] text-fg" style="background: rgb(var(--fg-rgb) / 0.06); box-shadow: inset 0 0 0 1px rgb(var(--fg-rgb) / 0.06)">{l}</li>
               ))}
               {skills.map((s) => (
-                <li class="rounded-full px-4 py-2 text-[14px] text-accent-soft" style="background: rgb(124 58 237 / 0.14); box-shadow: inset 0 0 0 1px rgb(167 139 250 / 0.2)">{s}</li>
+                <li class="rounded-full px-4 py-2 text-[14px] text-accent-soft" style="background: rgb(var(--accent-rgb) / 0.14); box-shadow: inset 0 0 0 1px rgb(var(--accent-rgb) / 0.2)">{s}</li>
               ))}
             </ul>
           </div>
@@ -175,7 +175,7 @@ const journey = [
             target="_blank"
             rel="noopener"
             class="card group relative flex min-h-[340px] flex-col overflow-hidden p-7 sm:p-10"
-            style="background: radial-gradient(90% 90% at 100% 100%, rgb(124 58 237 / 0.55) 0%, rgb(46 16 101 / 0.5) 45%, #141414 100%);"
+            style="background: radial-gradient(90% 90% at 100% 100%, rgb(var(--accent-rgb) / 0.55) 0%, rgb(var(--accent-rgb) / 0.5) 45%, var(--card) 100%);"
           >
             <h3 class="heading-card italic">&amp; writing</h3>
             <p class="body-muted mt-3">공부하고 배운 것을 블로그에 꾸준히 기록하고 있어요.</p>
@@ -183,7 +183,7 @@ const journey = [
               youngjae777.tistory.com
               <Icon name="arrow-up-right" class="size-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </span>
-            <span class="pointer-events-none absolute -right-4 -bottom-10 font-display text-[200px] leading-none text-white/[0.06] italic select-none" aria-hidden="true">Aa</span>
+            <span class="pointer-events-none absolute -right-4 -bottom-10 font-display text-[200px] leading-none text-fg/[0.06] italic select-none" aria-hidden="true">Aa</span>
           </a>
         </div>
       </div>

@@ -9,7 +9,7 @@ const fields = [
   { id: 'email', label: 'Email address', type: 'email', autocomplete: 'email', error: '올바른 이메일을 입력해주세요.' },
   { id: 'phone', label: 'Phone number', type: 'tel', autocomplete: 'tel', error: '연락처를 입력해주세요.' },
 ];
-const input = 'peer w-full rounded-[20px] bg-white/[0.04] px-5 pt-7 pb-3 text-[16px] text-fg outline-none ring-1 ring-white/[0.08] transition placeholder:text-transparent focus:ring-2 focus:ring-accent-soft/70';
+const input = 'peer w-full rounded-[20px] bg-fg/[0.04] px-5 pt-7 pb-3 text-[16px] text-fg outline-none ring-1 ring-fg/[0.08] transition placeholder:text-transparent focus:ring-2 focus:ring-accent-soft/70';
 const labelCls = 'pointer-events-none absolute top-2.5 left-5 text-[12px] text-fg-subtle';
 ---
 <Base title="Contact">
@@ -35,7 +35,7 @@ const labelCls = 'pointer-events-none absolute top-2.5 left-5 text-[12px] text-f
             </div>
             <p class="mt-1.5 hidden px-2 text-[13px] text-rose-300" data-error-for="message">메시지를 입력해주세요.</p>
           </div>
-          <button type="submit" class="btn-pill mt-2 w-full bg-accent text-white" style="background: linear-gradient(180deg, #8b5cf6, #7c3aed)">
+          <button type="submit" class="btn-pill mt-2 w-full bg-accent text-on-accent" style="background: var(--accent)">
             Submit
           </button>
           <p class="text-center text-[13px] text-fg-subtle">
