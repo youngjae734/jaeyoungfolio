@@ -6,7 +6,9 @@ import { profile, url } from '../data/site';
 
 interface Props { title?: string; description?: string }
 const { title, description = `${profile.name} — ${profile.tagline}` } = Astro.props;
-const fullTitle = title ? `${title} · JaeYoung-Jung.dev` : 'JaeYoung-Jung.dev';
+// 사이트 이름: 브라우저 탭과 링크 공유 미리보기 제목에 쓰입니다.
+const siteName = 'Jaeyoungfolio';
+const fullTitle = title ? `${title} · ${siteName}` : siteName;
 ---
 <!doctype html>
 <html lang="ko">
