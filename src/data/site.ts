@@ -1,7 +1,7 @@
 import type { ImageMetadata } from 'astro';
 import project1 from '../assets/project1.png';
 import project2 from '../assets/project2.png';
-import project3 from '../assets/project3-crop.png';
+import project3 from '../assets/project3.png';
 import project4 from '../assets/project4.png';
 
 /** base 경로(/jaeyoungfolio)를 붙여주는 헬퍼. http(s)로 시작하는 외부 주소는 그대로 둡니다. */
