@@ -1,4 +1,4 @@
-# JaeYoung-Jung.dev
+# Jaeyoungfolio
 
 > Learning fast, building better.
 
