@@ -20,7 +20,9 @@ const fullTitle = title ? `${title} · ${siteName}` : siteName;
     <meta name="theme-color" content="#812645" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <link rel="icon" type="image/x-icon" href={url('assets/favicon.ico')} />
+    <!-- 사이트 아이콘: public/assets/favicon.png (정사각형 PNG) -->
+    <link rel="icon" type="image/png" href={url('assets/favicon.png')} />
+    <link rel="apple-touch-icon" href={url('assets/favicon.png')} />
     <title>{fullTitle}</title>
     <script is:inline>document.documentElement.classList.add('js')</script>
   </head>
