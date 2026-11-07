@@ -15,7 +15,7 @@ import { projects, url } from '../data/site';
         <a
           data-reveal
           id={p.slug}
-          href={url(p.pdf)}
+          href={url(p.link)}
           target="_blank"
           rel="noopener"
           class="card group grid scroll-mt-28 overflow-hidden transition hover:bg-card-hover md:grid-cols-[1fr_340px]"
@@ -27,8 +27,8 @@ import { projects, url } from '../data/site';
               {p.body.map((para) => <p set:html={para} />)}
             </div>
             <span class="mt-8 inline-flex items-center gap-2 text-[14px] text-fg-muted transition group-hover:text-fg">
-              <span class="icon-circle group-hover:bg-accent group-hover:text-on-accent"><Icon name="file" /></span>
-              발표 자료 보기 (PDF)
+              <span class="icon-circle group-hover:bg-accent group-hover:text-on-accent"><Icon name="arrow-up-right" /></span>
+              자세히 보기 (Notion)
             </span>
           </div>
           <div class="relative min-h-[340px] overflow-hidden">

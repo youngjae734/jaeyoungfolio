@@ -3,9 +3,11 @@ import project1 from '../assets/project1.png';
 import project2 from '../assets/project2.png';
 import project3 from '../assets/project3-crop.png';
 
-/** base 경로(/jaeyoungfolio)를 붙여주는 헬퍼 */
+/** base 경로(/jaeyoungfolio)를 붙여주는 헬퍼. http(s)로 시작하는 외부 주소는 그대로 둡니다. */
 export const url = (path: string) =>
-  `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
+  /^https?:\/\//.test(path)
+    ? path
+    : `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
 
 export const profile = {
   name: 'JaeYoung Jung',
@@ -29,7 +31,8 @@ export type Project = {
   body: string[];
   image: ImageMetadata;
   imageAlt: string;
-  pdf: string;
+  /** 카드를 눌렀을 때 새 탭에서 열리는 주소. 노션 등 외부 링크(https://...) 또는 public 안의 파일 경로 */
+  link: string;
 };
 
 export const projects: Project[] = [
@@ -45,7 +48,7 @@ export const projects: Project[] = [
     ],
     image: project3,
     imageAlt: 'OddO 앱 화면',
-    pdf: 'assets/Oddo.pdf',
+    link: 'https://jaeyoung27.notion.site/Oddo-dad990ba135e8260a82581f0aa088f28',
   },
   {
     slug: 'campus-link',
@@ -59,7 +62,7 @@ export const projects: Project[] = [
     ],
     image: project1,
     imageAlt: 'Campus Link 메인 화면',
-    pdf: 'assets/Campus Link.pdf',
+    link: 'https://jaeyoung27.notion.site/Campus-Link-4f8990ba135e83fe98ba8110f7aae102',
   },
   {
     slug: 'lifelog',
@@ -72,7 +75,7 @@ export const projects: Project[] = [
     ],
     image: project2,
     imageAlt: 'Stress Level vs Productivity 회귀 그래프',
-    pdf: 'assets/LifeLog Productivity Predictor.pdf',
+    link: 'https://jaeyoung27.notion.site/Data-Science-a50990ba135e827da43801c4dde51374',
   },
 ];
 

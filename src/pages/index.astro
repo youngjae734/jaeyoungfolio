@@ -40,7 +40,7 @@ const journey = [
         <!-- featured: 가로로 긴 카드 -->
         <a
           data-reveal
-          href={url(featured.pdf)}
+          href={url(featured.link)}
           target="_blank"
           rel="noopener"
           class="card group relative grid overflow-hidden transition hover:bg-card-hover md:h-[440px] md:grid-cols-2"
@@ -68,7 +68,7 @@ const journey = [
           {rest.map((p, i) => (
             <a
               data-reveal={i * 0.1}
-              href={url(p.pdf)}
+              href={url(p.link)}
               target="_blank"
               rel="noopener"
               class="card group relative flex h-[480px] flex-col overflow-hidden sm:h-[540px] transition hover:bg-card-hover"
