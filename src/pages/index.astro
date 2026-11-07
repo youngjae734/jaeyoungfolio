@@ -8,6 +8,15 @@ import { profile, projects, languages, skills, url } from '../data/site';
 
 const [featured, ...rest] = projects;
 
+// 나머지 카드는 두 열에 번갈아 배치합니다.
+// 열마다 위/아래 카드 키를 엇갈리게(긴 카드 ↔ 짧은 카드) 주고, 두 열은 아래 끝이 항상 맞춰집니다.
+const columns = [0, 1].map((col) =>
+  rest
+    .map((p, i) => ({ p, i }))
+    .filter(({ i }) => i % 2 === col)
+    .map(({ p, i }, row) => ({ p, i, tall: (col + row) % 2 === 0 })),
+);
+
 const journey = [
   { period: '2023 –', title: '홍익대학교 입학', sub: '소프트웨어융합학과' },
   { period: '2026 –', title: '메타버스 6기', sub: 'Software Engineering' },
@@ -53,41 +62,50 @@ const journey = [
               <Icon name="arrow-right" />
             </span>
           </div>
+          <!-- 대표 사진 크기 조절
+               · 모바일 사진 영역 높이: 바로 아래 h-[320px]
+               · PC 카드 전체 높이: 위쪽 <a>의 md:h-[440px]  ← 키우면 사진도 커짐
+               · PC 사진 위/아래 여백: md:top-6 md:bottom-6 (작을수록 사진이 커짐, 0까지)
+               · PC 사진 영역 너비: md:w-[340px] / 오른쪽 여백: md:right-10 -->
           <div class="relative h-[320px] md:h-auto">
-            <div
-              class="absolute inset-x-6 -bottom-6 top-0 overflow-hidden rounded-t-[24px] transition duration-500 group-hover:-translate-y-2 md:inset-x-auto md:top-10 md:right-10 md:w-[340px]"
-              style="box-shadow: 0 0 0 1px rgb(var(--fg-rgb) / 0.08), 0 30px 60px rgb(0 0 0 / 0.5);"
-            >
-              <Image src={featured.image} alt={featured.imageAlt} class="size-full object-cover object-top" widths={[400, 700]} sizes="340px" />
+            <div class="device-shot absolute inset-x-6 top-0 bottom-6 transition duration-500 group-hover:-translate-y-2 md:inset-x-auto md:top-6 md:bottom-6 md:right-10 md:w-[340px]">
+              <Image src={featured.image} alt={featured.imageAlt} class="size-full object-contain" widths={[400, 700]} sizes="340px" />
             </div>
           </div>
         </a>
 
-        <!-- 나머지: 2열 -->
+        <!-- 나머지: 키가 엇갈리는 2열 (아래 끝은 맞춤) -->
         <div class="grid gap-4 sm:gap-5 md:grid-cols-2">
-          {rest.map((p, i) => (
-            <a
-              data-reveal={i * 0.1}
-              href={url(p.link)}
-              target="_blank"
-              rel="noopener"
-              class="card group relative flex h-[480px] flex-col overflow-hidden sm:h-[540px] transition hover:bg-card-hover"
-            >
-              <div class="p-7 sm:p-10">
-                <p class="label">{p.label}</p>
-                <h3 class="heading-card mt-2">{p.title}</h3>
-                <p class="body-muted mt-3">{p.summary}</p>
-              </div>
-              <div
-                class="absolute right-7 -bottom-8 left-[84px] top-[240px] sm:top-[300px] overflow-hidden rounded-t-[20px] sm:right-10 sm:left-[100px] transition duration-500 group-hover:-translate-y-2"
-                style="box-shadow: 0 0 0 1px rgb(var(--fg-rgb) / 0.08), 0 30px 60px rgb(0 0 0 / 0.5);"
-              >
-                <Image src={p.image} alt={p.imageAlt} class="size-full object-cover object-top" widths={[400, 700]} sizes="(min-width: 768px) 400px, 90vw" />
-              </div>
-              <span class="icon-circle absolute bottom-7 left-7 z-10 backdrop-blur group-hover:bg-accent group-hover:text-on-accent sm:bottom-10 sm:left-10" style="background: rgb(var(--card-rgb) / 0.8)">
-                <Icon name="arrow-right" />
-              </span>
-            </a>
+          {columns.map((col) => (
+            <div class="flex flex-col gap-4 sm:gap-5">
+              {col.map(({ p, i, tall }) => (
+                <a
+                  data-reveal={(i % 2) * 0.1}
+                  href={url(p.link)}
+                  target="_blank"
+                  rel="noopener"
+                  class:list={[
+                    'card group relative flex flex-col overflow-hidden transition hover:bg-card-hover',
+                    // 긴 카드 / 짧은 카드 최소 높이. 남는 공간은 3:2로 나눠 가지고, 내용보다 작아지지는 않음
+                    tall ? 'min-h-[460px] md:min-h-[480px] md:flex-[3_0_auto]' : 'min-h-[400px] md:min-h-[340px] md:flex-[2_0_auto]',
+                  ]}
+                >
+                  <div class="p-7 sm:p-10">
+                    <p class="label">{p.label}</p>
+                    <h3 class="heading-card mt-2">{p.title}</h3>
+                    <p class="body-muted mt-3">{p.summary}</p>
+                  </div>
+                  <div class="relative min-h-[180px] flex-1">
+                    <div class="device-shot absolute top-0 right-7 bottom-7 left-20 transition duration-500 group-hover:-translate-y-2 sm:right-10 sm:bottom-10 sm:left-24">
+                      <Image src={p.image} alt={p.imageAlt} class="size-full object-contain" widths={[400, 700]} sizes="(min-width: 768px) 400px, 90vw" />
+                    </div>
+                  </div>
+                  <span class="icon-circle absolute bottom-7 left-7 z-10 group-hover:bg-accent group-hover:text-on-accent sm:bottom-10 sm:left-10">
+                    <Icon name="arrow-right" />
+                  </span>
+                </a>
+              ))}
+            </div>
           ))}
         </div>
       </div>

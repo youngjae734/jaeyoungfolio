@@ -31,12 +31,9 @@ import { projects, url } from '../data/site';
               자세히 보기 (Notion)
             </span>
           </div>
-          <div class="relative min-h-[340px] overflow-hidden">
-            <div
-              class="absolute inset-x-6 top-0 -bottom-6 overflow-hidden rounded-t-[20px] transition duration-500 group-hover:-translate-y-2 md:inset-x-0 md:top-10 md:right-10 md:bottom-0 md:rounded-[20px]"
-              style="box-shadow: 0 0 0 1px rgb(var(--fg-rgb) / 0.08), 0 30px 60px rgb(0 0 0 / 0.5);"
-            >
-              <Image src={p.image} alt={p.imageAlt} class="size-full object-cover object-top" widths={[340, 680]} sizes="(min-width: 768px) 300px, 90vw" />
+          <div class="relative min-h-[340px]">
+            <div class="device-shot absolute inset-x-6 top-0 bottom-6 transition duration-500 group-hover:-translate-y-2 md:inset-y-10 md:left-0 md:right-10">
+              <Image src={p.image} alt={p.imageAlt} class="size-full object-contain" widths={[340, 680]} sizes="(min-width: 768px) 300px, 90vw" />
             </div>
           </div>
         </a>

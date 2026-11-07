@@ -85,6 +85,10 @@
   .btn-pill:hover {
     background: linear-gradient(180deg, rgb(var(--accent-rgb) / 0.28), rgb(var(--accent-rgb) / 0.14));
   }
+  /* 프로젝트 카드의 기기 목업 이미지: 네모 박스 없이 기기 모양을 따라 그림자만 */
+  .device-shot img {
+    filter: drop-shadow(0 24px 32px rgb(0 0 0 / 0.35));
+  }
   .icon-circle {
     @apply inline-flex size-10 items-center justify-center rounded-full text-fg-muted transition;
     background: rgb(var(--fg-rgb) / 0.08);
