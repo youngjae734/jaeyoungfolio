@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Glow from '../components/Glow.astro';
 import Icon from '../components/Icon.astro';
+import Collage from '../components/Collage.astro';
 import profileImg from '../assets/profile.png';
 import { profile, projects, languages, skills, url } from '../data/site';
 
@@ -96,11 +97,17 @@ const journey = [
                     <h3 class="heading-card mt-2">{p.title}</h3>
                     <p class="body-muted mt-3">{p.summary}</p>
                   </div>
-                  <div class="relative min-h-[180px] flex-1">
-                    <div class="device-shot absolute top-0 right-7 bottom-7 left-20 transition duration-500 group-hover:-translate-y-2 sm:right-10 sm:bottom-10 sm:left-24">
-                      <Image src={p.image} alt={p.imageAlt} class="size-full object-contain" widths={[400, 700]} sizes="(min-width: 768px) 400px, 90vw" />
+                  {p.collage ? (
+                    <div class="flex flex-1 items-center pb-20 sm:pb-24">
+                      <Collage slides={p.collage.slides} graphs={p.collage.graphs} alt={p.imageAlt} />
                     </div>
-                  </div>
+                  ) : (
+                    <div class="relative min-h-[180px] flex-1">
+                      <div class="device-shot absolute top-0 right-7 bottom-7 left-20 transition duration-500 group-hover:-translate-y-2 sm:right-10 sm:bottom-10 sm:left-24">
+                        <Image src={p.image} alt={p.imageAlt} class="size-full object-contain" widths={[400, 700]} sizes="(min-width: 768px) 400px, 90vw" />
+                      </div>
+                    </div>
+                  )}
                   <span class="icon-circle absolute bottom-7 left-7 z-10 group-hover:bg-accent group-hover:text-on-accent sm:bottom-10 sm:left-10">
                     <Icon name="arrow-right" />
                   </span>

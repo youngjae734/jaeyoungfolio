@@ -3,6 +3,10 @@ import project1 from '../assets/project1.png';
 import project2 from '../assets/project2.png';
 import project3 from '../assets/project3.png';
 import project4 from '../assets/project4.png';
+import lifelogSlide1 from '../assets/lifelog-slide1.png';
+import lifelogSlide2 from '../assets/lifelog-slide2.png';
+import lifelogGraph1 from '../assets/lifelog-graph1.png';
+import lifelogGraph2 from '../assets/lifelog-graph2.png';
 
 /** base 경로(/jaeyoungfolio)를 붙여주는 헬퍼. http(s)로 시작하는 외부 주소는 그대로 둡니다. */
 export const url = (path: string) =>
@@ -34,6 +38,8 @@ export type Project = {
   imageAlt: string;
   /** 카드를 눌렀을 때 새 탭에서 열리는 주소. 노션 등 외부 링크(https://...) 또는 public 안의 파일 경로 */
   link: string;
+  /** 홈 카드에서 image 대신 슬라이드 2장 + 그래프 2장을 겹쳐 보여줄 때 (components/Collage.astro) */
+  collage?: { slides: [ImageMetadata, ImageMetadata]; graphs: [ImageMetadata, ImageMetadata] };
 };
 
 export const projects: Project[] = [
@@ -77,6 +83,7 @@ export const projects: Project[] = [
     image: project2,
     imageAlt: 'Stress Level vs Productivity 회귀 그래프',
     link: 'https://jaeyoung27.notion.site/Data-Science-a50990ba135e827da43801c4dde51374',
+    collage: { slides: [lifelogSlide1, lifelogSlide2], graphs: [lifelogGraph1, lifelogGraph2] },
   },
   {
     slug: 'ue5-popup-store',
