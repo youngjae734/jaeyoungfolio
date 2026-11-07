@@ -62,14 +62,15 @@ const journey = [
               <Icon name="arrow-right" />
             </span>
           </div>
-          <!-- 대표 사진 크기 조절
-               · 모바일 사진 영역 높이: 바로 아래 h-[320px]
-               · PC 카드 전체 높이: 위쪽 <a>의 md:h-[440px]  ← 키우면 사진도 커짐
-               · PC 사진 위/아래 여백: md:top-6 md:bottom-6 (작을수록 사진이 커짐, 0까지)
-               · PC 사진 영역 너비: md:w-[340px] / 오른쪽 여백: md:right-10 -->
-          <div class="relative h-[320px] md:h-auto">
-            <div class="device-shot absolute inset-x-6 top-0 bottom-6 transition duration-500 group-hover:-translate-y-2 md:inset-x-auto md:top-6 md:bottom-6 md:right-10 md:w-[340px]">
-              <Image src={featured.image} alt={featured.imageAlt} class="size-full object-contain" widths={[400, 700]} sizes="340px" />
+          <!-- 대표 사진: 오른쪽 위에서 시작해 카드 아래로 잘려 나가는 배치
+               · 사진 크기(너비): md:w-[260px]  ← 키우면 폰이 커짐 (모바일은 w-[220px])
+               · 위쪽에서 떨어진 거리: md:top-14 (56px)
+               · 오른쪽에서 떨어진 거리: md:right-24 (96px)
+               · 카드 높이: 위쪽 <a>의 md:h-[440px]  ← 키우면 폰이 아래로 더 많이 보임
+               · 모바일 사진 영역 높이: 바로 아래 h-[340px] -->
+          <div class="relative h-[340px] md:h-auto">
+            <div class="device-shot absolute top-0 left-1/2 w-[220px] -translate-x-1/2 transition duration-500 group-hover:-translate-y-2 md:top-14 md:right-24 md:left-auto md:w-[260px] md:translate-x-0">
+              <Image src={featured.image} alt={featured.imageAlt} class="h-auto w-full" widths={[300, 600]} sizes="(min-width: 768px) 260px, 220px" />
             </div>
           </div>
         </a>
