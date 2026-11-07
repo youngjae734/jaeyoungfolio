@@ -2,7 +2,7 @@
 
 > Learning fast, building better.
 
-정재영의 개인 포트폴리오 사이트입니다. 지금까지 진행한 프로젝트와 이력, 연락처를 한곳에 모았습니다.
+ 포트폴리오 사이트입니다. 지금까지 진행한 프로젝트와 이력, 연락처를 한곳에 모았습니다.
 
 🔗 **https://youngjae734.github.io/jaeyoungfolio/**
 
