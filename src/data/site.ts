@@ -2,6 +2,7 @@ import type { ImageMetadata } from 'astro';
 import project1 from '../assets/project1.png';
 import project2 from '../assets/project2.png';
 import project3 from '../assets/project3-crop.png';
+import project4 from '../assets/project4.png';
 
 /** base 경로(/jaeyoungfolio)를 붙여주는 헬퍼. http(s)로 시작하는 외부 주소는 그대로 둡니다. */
 export const url = (path: string) =>
@@ -76,6 +77,20 @@ export const projects: Project[] = [
     image: project2,
     imageAlt: 'Stress Level vs Productivity 회귀 그래프',
     link: 'https://jaeyoung27.notion.site/Data-Science-a50990ba135e827da43801c4dde51374',
+  },
+  {
+    slug: 'ue5-popup-store',
+    title: 'UE5 가상 패션 팝업스토어',
+    label: 'UNREAL ENGINE 5 · BLUEPRINT · 1인 프로젝트',
+    summary: '체형을 고르고 옷을 입어보며 실제 브랜드 사이트로 이어지는 몰입형 가상 패션 팝업스토어',
+    body: [
+      '<strong>UE5 가상 패션 팝업스토어</strong>는 언리얼 엔진 5로 만든 몰입형 가상 패션 매장입니다. 짧은 전시 후 버려지는 팝업스토어 자재와 긴 웨이팅 문제를 가상현실로 풀어, 언제 어디서나 브랜드의 세계관을 체험할 수 있도록 기획했습니다.',
+      'PCG로 밤의 숲길과 판타지 공간을 구성하고, 체형 선택 → 매장 탐색 → 옷 입어보기 → 브랜드 사이트 연결로 이어지는 체험 흐름을 블루프린트로 구현했습니다. 선택한 체형은 Game Instance에 저장해 아바타 스케일에 반영하고, 충돌 감지로 캐릭터 메시를 바꿔 가상 착용을 표현했습니다.',
+      '<strong>1인 프로젝트</strong>로 문제 정의부터 공간 설계, 기능 구현, 시연까지 혼자 완성했습니다.',
+    ],
+    image: project4,
+    imageAlt: 'UE5 가상 패션 팝업스토어 발표 표지와 가상 공간 장면',
+    link: 'https://jaeyoung27.notion.site/UE5-747990ba135e82e6ba788166670c20d1',
   },
 ];
 
