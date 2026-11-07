@@ -1,0 +1,238 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Glow from '../components/Glow.astro';
+import Icon from '../components/Icon.astro';
+import Collage from '../components/Collage.astro';
+import profileImg from '../assets/profile.png';
+import { profile, projects, languages, skills, url } from '../data/site';
+
+const [featured, ...rest] = projects;
+
+// 나머지 카드는 두 열에 번갈아 배치합니다.
+// 열마다 위/아래 카드 키를 엇갈리게(긴 카드 ↔ 짧은 카드) 주고, 두 열은 아래 끝이 항상 맞춰집니다.
+const columns = [0, 1].map((col) =>
+  rest
+    .map((p, i) => ({ p, i }))
+    .filter(({ i }) => i % 2 === col)
+    .map(({ p, i }, row) => ({ p, i, tall: (col + row) % 2 === 0 })),
+);
+
+const journey = [
+  { period: '2023 –', title: '홍익대학교 입학', sub: '소프트웨어융합학과' },
+  { period: '2026 –', title: '메타버스 6기', sub: 'Software Engineering' },
+  { period: 'Now', title: 'OddO 팀 프로젝트', sub: '멀티모달 감정 분석' },
+];
+---
+<Base>
+  <!-- ───────── Hero ───────── -->
+  <section class="relative flex min-h-[760px] items-center justify-center pt-24 sm:min-h-[900px]">
+    <Glow position="top" />
+    <div class="container-site relative z-10 text-center">
+      <h1 data-intro="rise" data-delay="0.8" class="font-display text-[60px] leading-[1.02] tracking-[-0.02em] text-fg sm:text-[96px] lg:text-[120px]">
+        Hi there,<br />I am {profile.firstName}
+      </h1>
+      <p data-intro="rise" data-delay="1" class="body-muted mx-auto mt-8 max-w-[720px] text-balance">
+        {profile.tagline}. 작은 기능 하나에도 사용자와 팀을 먼저 생각하는 개발자 정재영입니다.
+      </p>
+      <div data-intro="appear" data-delay="1.2" class="mt-12">
+        <a href="#contact" class="btn-pill w-[200px]">Get in touch</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── Projects ───────── -->
+  <section id="work" class="relative z-10 py-24 sm:py-32">
+    <div class="container-site">
+      <h2 data-reveal class="heading-section mb-12 text-center sm:mb-16">A few things I've built</h2>
+
+      <div class="grid gap-4 sm:gap-5">
+        <!-- featured: 가로로 긴 카드 -->
+        <a
+          data-reveal
+          href={url(featured.link)}
+          target="_blank"
+          rel="noopener"
+          class="card group relative grid overflow-hidden transition hover:bg-card-hover md:h-[440px] md:grid-cols-2"
+        >
+          <div class="flex flex-col p-7 sm:p-10">
+            <p class="label">{featured.label}</p>
+            <h3 class="heading-card mt-2">{featured.title}</h3>
+            <p class="body-muted mt-3 max-w-[420px]">{featured.summary}</p>
+            <span class="icon-circle mt-8 group-hover:bg-accent group-hover:text-on-accent md:mt-auto">
+              <Icon name="arrow-right" />
+            </span>
+          </div>
+          <!-- 대표 사진: 오른쪽 위에서 시작해 카드 아래로 잘려 나가는 배치
+               · 사진 크기(너비): md:w-[260px]  ← 키우면 폰이 커짐 (모바일은 w-[220px])
+               · 위쪽에서 떨어진 거리: md:top-14 (56px)
+               · 오른쪽에서 떨어진 거리: md:right-24 (96px)
+               · 카드 높이: 위쪽 <a>의 md:h-[440px]  ← 키우면 폰이 아래로 더 많이 보임
+               · 모바일 사진 영역 높이: 바로 아래 h-[340px] -->
+          <div class="relative h-[340px] md:h-auto">
+            <div class="device-shot absolute top-0 left-1/2 w-[220px] -translate-x-1/2 transition duration-500 group-hover:-translate-y-2 md:top-14 md:right-24 md:left-auto md:w-[260px] md:translate-x-0">
+              <Image src={featured.image} alt={featured.imageAlt} class="h-auto w-full" widths={[300, 600]} sizes="(min-width: 768px) 260px, 220px" />
+            </div>
+          </div>
+        </a>
+
+        <!-- 나머지: 키가 엇갈리는 2열 (아래 끝은 맞춤) -->
+        <div class="grid gap-4 sm:gap-5 md:grid-cols-2">
+          {columns.map((col) => (
+            <div class="flex flex-col gap-4 sm:gap-5">
+              {col.map(({ p, i, tall }) => (
+                <a
+                  data-reveal={(i % 2) * 0.1}
+                  href={url(p.link)}
+                  target="_blank"
+                  rel="noopener"
+                  class:list={[
+                    'card group relative flex flex-col overflow-hidden transition hover:bg-card-hover',
+                    // 긴 카드 / 짧은 카드 최소 높이. 남는 공간은 3:2로 나눠 가지고, 내용보다 작아지지는 않음
+                    tall ? 'min-h-[460px] md:min-h-[480px] md:flex-[3_0_auto]' : 'min-h-[400px] md:min-h-[340px] md:flex-[2_0_auto]',
+                  ]}
+                >
+                  <div class="p-7 sm:p-10">
+                    <p class="label">{p.label}</p>
+                    <h3 class="heading-card mt-2">{p.title}</h3>
+                    <p class="body-muted mt-3">{p.summary}</p>
+                  </div>
+                  {p.collage ? (
+                    <div class="flex flex-1 items-center pb-20 sm:pb-24">
+                      <Collage slides={p.collage.slides} graphs={p.collage.graphs} alt={p.imageAlt} />
+                    </div>
+                  ) : (
+                    <div class="relative min-h-[180px] flex-1">
+                      <div class="device-shot absolute top-0 right-7 bottom-7 left-20 transition duration-500 group-hover:-translate-y-2 sm:right-10 sm:bottom-10 sm:left-24">
+                        <Image src={p.image} alt={p.imageAlt} class="size-full object-contain" widths={[400, 700]} sizes="(min-width: 768px) 400px, 90vw" />
+                      </div>
+                    </div>
+                  )}
+                  <span class="icon-circle absolute bottom-7 left-7 z-10 group-hover:bg-accent group-hover:text-on-accent sm:bottom-10 sm:left-10">
+                    <Icon name="arrow-right" />
+                  </span>
+                </a>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── About ───────── -->
+  <section id="about" class="relative z-10 py-24 sm:py-32">
+    <div class="container-site">
+      <h2 data-reveal class="heading-section mb-12 text-center sm:mb-16">A bit about me</h2>
+
+      <div class="grid gap-4 sm:gap-5">
+        <!-- row 1 -->
+        <div class="grid gap-4 sm:gap-5 md:grid-cols-[1fr_292px]">
+          <div data-reveal class="card p-7 sm:p-10">
+            <h3 class="heading-card">Some context</h3>
+            <div class="mt-4 space-y-3 text-[15px] leading-[1.75] text-fg-muted sm:text-[16px]">
+              <p>
+                홍익대학교 소프트웨어융합학과에서 자료구조, 운영체제, 데이터베이스 같은 컴퓨터 공학의 기초를 다지고,
+                Java 기반 웹 개발과 팀 프로젝트로 요구사항 분석부터 협업까지 경험하고 있습니다.
+              </p>
+              <p>
+                웹 서비스, 데이터 분석, 멀티모달 AI까지 다양한 프로젝트를 해오면서 한 가지는 늘 지키려고 합니다.
+                <span class="text-fg">{profile.motto}</span>
+              </p>
+            </div>
+          </div>
+          <div
+            data-reveal="0.1"
+            class="card relative min-h-[292px] overflow-hidden"
+            style="background: radial-gradient(120% 100% at 50% 100%, var(--accent) 0%, var(--accent) 45%, var(--card) 100%);"
+          >
+            <Image src={profileImg} alt="정재영 프로필" class="absolute inset-x-0 bottom-0 mx-auto w-[300px] max-w-none" widths={[300, 600]} sizes="300px" />
+          </div>
+        </div>
+
+        <!-- row 2 -->
+        <div class="grid gap-4 sm:gap-5 md:grid-cols-[284px_1fr]">
+          <div data-reveal class="card p-7 sm:p-10">
+            <h3 class="heading-card">Education</h3>
+            <div class="mt-8 border-t border-line pt-5">
+              <p class="text-[13px] text-fg-subtle">2023 –</p>
+              <span class="mt-3 block size-2 rounded-full bg-accent-soft"></span>
+              <p class="mt-3 text-[15px] text-fg">Hongik University</p>
+              <p class="text-[13px] text-fg-subtle">소프트웨어융합학과</p>
+            </div>
+          </div>
+          <div data-reveal="0.1" class="card p-7 sm:p-10">
+            <div class="flex items-start justify-between gap-4">
+              <h3 class="heading-card">My journey</h3>
+              <a href={url('resume')} class="mt-2 inline-flex items-center gap-1 text-[14px] text-fg-muted transition hover:text-fg">
+                Resume <Icon name="arrow-up-right" class="size-3.5" />
+              </a>
+            </div>
+            <ol class="mt-8 grid grid-cols-1 gap-6 border-t border-line pt-5 sm:grid-cols-3 sm:gap-4">
+              {journey.map((j) => (
+                <li>
+                  <p class="text-[13px] text-fg-subtle">{j.period}</p>
+                  <span class="mt-3 block size-2 rounded-full bg-accent-soft"></span>
+                  <p class="mt-3 text-[15px] text-fg">{j.title}</p>
+                  <p class="text-[13px] text-fg-subtle">{j.sub}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+
+        <!-- row 3 -->
+        <div class="grid gap-4 sm:gap-5 md:grid-cols-2">
+          <div data-reveal class="card flex min-h-[340px] flex-col p-7 sm:p-10">
+            <h3 class="heading-card">Tools I build with</h3>
+            <p class="body-muted mt-3">주로 사용하는 언어와 관심 분야예요.</p>
+            <ul class="mt-auto flex flex-wrap gap-2 pt-8">
+              {languages.map((l) => (
+                <li class="rounded-full px-4 py-2 text-[14px] text-fg" style="background: rgb(var(--fg-rgb) / 0.06); box-shadow: inset 0 0 0 1px rgb(var(--fg-rgb) / 0.06)">{l}</li>
+              ))}
+              {skills.map((s) => (
+                <li class="rounded-full px-4 py-2 text-[14px] text-accent-soft" style="background: rgb(var(--accent-rgb) / 0.14); box-shadow: inset 0 0 0 1px rgb(var(--accent-rgb) / 0.2)">{s}</li>
+              ))}
+            </ul>
+          </div>
+          <a
+            data-reveal="0.1"
+            href={profile.blog}
+            target="_blank"
+            rel="noopener"
+            class="card group relative flex min-h-[340px] flex-col overflow-hidden p-7 sm:p-10"
+            style="background: radial-gradient(90% 90% at 100% 100%, rgb(var(--accent-rgb) / 0.55) 0%, rgb(var(--accent-rgb) / 0.5) 45%, var(--card) 100%);"
+          >
+            <h3 class="heading-card italic">&amp; writing</h3>
+            <p class="body-muted mt-3">공부하고 배운 것을 블로그에 꾸준히 기록하고 있어요.</p>
+            <span class="mt-auto inline-flex items-center gap-2 pt-8 text-[15px] text-fg">
+              youngjae777.tistory.com
+              <Icon name="arrow-up-right" class="size-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </span>
+            <span class="pointer-events-none absolute -right-4 -bottom-10 font-display text-[200px] leading-none text-fg/[0.06] italic select-none" aria-hidden="true">Aa</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── Contact ───────── -->
+  <section id="contact" class="relative flex min-h-[640px] items-center justify-center pt-24 pb-48">
+    <Glow position="bottom" />
+    <div class="container-site relative z-10 text-center">
+      <h2 data-reveal class="heading-section">Your turn. Say hello</h2>
+      <p data-reveal="0.1" class="body-muted mx-auto mt-5 max-w-[520px]">함께 만들고 싶은 것이 있거나, 그냥 인사도 좋아요.</p>
+      <div data-reveal="0.2" class="mt-12 flex items-center justify-center gap-3">
+        <a href={profile.github} target="_blank" rel="noopener" aria-label="GitHub" class="btn-pill size-14 px-0">
+          <Icon name="github" class="size-5" />
+        </a>
+        <a href={`mailto:${profile.email}`} class="btn-pill w-[220px] sm:w-[280px]">
+          <Icon name="mail" class="size-4" /> Email me
+        </a>
+        <a href={profile.blog} target="_blank" rel="noopener" aria-label="Blog" class="btn-pill size-14 px-0">
+          <Icon name="pen" class="size-5" />
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

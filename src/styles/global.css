@@ -1,0 +1,172 @@
+@import 'tailwindcss';
+@import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
+@import '@fontsource/instrument-serif/400.css';
+@import '@fontsource/instrument-serif/400-italic.css';
+
+@theme {
+  --font-sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  /* 헤드라인 폰트: 여기만 바꾸면 전체 제목 폰트가 바뀝니다 */
+  --font-display: 'Instrument Serif', 'Pretendard Variable', serif;
+
+  --color-ink: var(--bg);
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
+  --color-line: rgb(var(--fg-rgb) / 0.1);
+
+  --color-fg: rgb(var(--fg-rgb) / 0.96);
+  --color-fg-muted: rgb(var(--fg-rgb) / 0.62);
+  --color-fg-subtle: rgb(var(--fg-rgb) / 0.45);
+
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent);
+  --color-on-accent: var(--on-accent);
+}
+
+/* ── 테마 색상: 이 값들만 바꾸면 사이트 전체 색이 바뀝니다 ── */
+:root {
+  --bg: #812645;            /* 배경 */
+  --card: #651e36;          /* 카드 (배경을 22% 어둡게) */
+  --card-rgb: 101 30 54;
+  --card-hover: #5a1b30;    /* 카드 hover (30% 어둡게) */
+  --fg-rgb: 247 242 244;    /* 글자 (흰색에 배경색을 살짝 섞음) */
+  --accent: #ddcfb8;        /* 포인트 */
+  --accent-rgb: 221 207 184;
+  --on-accent: #1a1a1a;     /* 포인트 색 위에 올라가는 글자 */
+
+  /* 상단/하단 원 뒤에서 천천히 움직이는 그라데이션 색 (RGB) */
+  --glow-1-rgb: 221 207 184; /* 크림 */
+  --glow-2-rgb: 214 84 128;  /* 밝은 로즈 */
+  --glow-3-rgb: 240 150 120; /* 살구 */
+}
+
+@layer base {
+  html {
+    background: var(--color-ink);
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ink font-sans text-fg antialiased;
+    word-break: keep-all;
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-[1000px] px-4 sm:px-6 lg:px-0;
+  }
+  .card {
+    @apply rounded-[28px] bg-card sm:rounded-[40px];
+    box-shadow: inset 0 0 0 1px rgb(var(--fg-rgb) / 0.04);
+  }
+  .heading-section {
+    @apply font-display text-[44px] leading-none tracking-[-0.4px] text-fg sm:text-[64px];
+  }
+  .heading-card {
+    @apply font-display text-[32px] leading-[1.2] tracking-[-0.2px] text-fg sm:text-[40px];
+  }
+  .label {
+    @apply text-[13px] leading-7 tracking-wide text-fg-subtle uppercase sm:text-[14px];
+  }
+  .body-muted {
+    @apply text-[16px] leading-[1.7] text-fg-muted sm:text-[18px];
+  }
+  .btn-pill {
+    @apply inline-flex h-14 items-center justify-center gap-2 rounded-full px-8 text-[16px] text-fg transition;
+    background: linear-gradient(180deg, rgb(var(--fg-rgb) / 0.1), rgb(var(--fg-rgb) / 0.04));
+    box-shadow: inset 0 0 0 1px rgb(var(--fg-rgb) / 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .btn-pill:hover {
+    background: linear-gradient(180deg, rgb(var(--accent-rgb) / 0.28), rgb(var(--accent-rgb) / 0.14));
+  }
+  /* 프로젝트 카드의 기기 목업 이미지: 네모 박스 없이 기기 모양을 따라 그림자만 */
+  .device-shot img {
+    filter: drop-shadow(0 24px 32px rgb(0 0 0 / 0.35));
+  }
+  .icon-circle {
+    @apply inline-flex size-10 items-center justify-center rounded-full text-fg-muted transition;
+    background: rgb(var(--fg-rgb) / 0.08);
+  }
+}
+
+/* 스크롤 등장 / 첫 화면 순차 등장 / 네비 (JS가 켜졌을 때만 숨김) */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.js [data-intro],
+.js [data-nav] {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal],
+  .js [data-intro],
+  .js [data-nav] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── 움직이는 그라데이션 (Glow) ── */
+.glow-field {
+  position: absolute;
+  left: 50%;
+  width: min(1200px, 160vw);
+  height: 760px;
+  translate: -50% 0;
+}
+.glow-field--top { top: -240px; }
+.glow-field--bottom { bottom: -240px; }
+
+.glow-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  will-change: transform;
+  animation: glow-drift-a 18s ease-in-out infinite alternate;
+}
+.glow-blob--1 {
+  left: 14%; top: 22%; width: 44%; height: 58%;
+  background: rgb(var(--glow-1-rgb) / 0.5);
+}
+.glow-blob--2 {
+  right: 12%; top: 26%; width: 44%; height: 58%;
+  background: rgb(var(--glow-2-rgb) / 0.75);
+  animation-name: glow-drift-b;
+  animation-duration: 22s;
+  animation-delay: -7s;
+}
+.glow-blob--3 {
+  left: 34%; top: 8%; width: 34%; height: 50%;
+  background: rgb(var(--glow-3-rgb) / 0.45);
+  animation-duration: 26s;
+  animation-delay: -13s;
+}
+@keyframes glow-drift-a {
+  0%   { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50%  { transform: translate(14%, 10%) scale(1.15) rotate(25deg); }
+  100% { transform: translate(-12%, 4%) scale(0.9) rotate(-15deg); }
+}
+@keyframes glow-drift-b {
+  0%   { transform: translate(0, 0) scale(1.05) rotate(0deg); }
+  50%  { transform: translate(-16%, -6%) scale(0.9) rotate(-20deg); }
+  100% { transform: translate(8%, 12%) scale(1.2) rotate(15deg); }
+}
+
+/* 노이즈 질감 */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px;
+  opacity: 0.22;
+  mix-blend-mode: overlay;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow-blob { animation: none; }
+}

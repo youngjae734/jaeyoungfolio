@@ -1,0 +1,31 @@
+---
+// 상단/하단 원 + 천천히 움직이는 그라데이션 + 노이즈 질감 + 세로 라인
+// 등장 애니메이션은 Base.astro의 [data-intro] 스크립트가 담당합니다.
+interface Props { position?: 'top' | 'bottom'; class?: string }
+const { position = 'top', class: cls = '' } = Astro.props;
+const top = position === 'top';
+const fadeMask = `mask-image: linear-gradient(${top ? '180deg' : '0deg'}, black 10%, transparent 70%); -webkit-mask-image: linear-gradient(${top ? '180deg' : '0deg'}, black 10%, transparent 70%);`;
+---
+<div class:list={['pointer-events-none absolute inset-x-0 overflow-hidden', top ? 'top-0 h-[900px]' : 'bottom-0 h-[700px]', cls]} aria-hidden="true">
+  <!-- 움직이는 그라데이션: 4초에 걸쳐 천천히 나타남 -->
+  <div class="absolute inset-0" data-intro="fade">
+    <div class:list={['glow-field', top ? 'glow-field--top' : 'glow-field--bottom']}>
+      <span class="glow-blob glow-blob--1"></span>
+      <span class="glow-blob glow-blob--2"></span>
+      <span class="glow-blob glow-blob--3"></span>
+    </div>
+  </div>
+  <!-- 노이즈 질감 -->
+  <div class="grain absolute inset-0" style={fadeMask}></div>
+  <!-- vertical lines -->
+  <div
+    class="absolute inset-0 opacity-60"
+    style={`background-image: repeating-linear-gradient(90deg, transparent 0 142px, rgb(var(--fg-rgb) / 0.05) 142px 143px); ${fadeMask}`}
+  ></div>
+  <!-- disk: 50% 크기에서 살짝 튕기며 커짐 -->
+  <div
+    data-intro="pop"
+    class:list={['absolute left-1/2 size-[280px] -translate-x-1/2 rounded-full sm:size-[400px]', top ? '-top-[190px] sm:-top-[280px]' : '-bottom-[190px] sm:-bottom-[280px]']}
+    style="background: radial-gradient(circle at 50% 50%, var(--accent) 0%, var(--accent) 60%, var(--accent) 100%); box-shadow: 0 0 120px 20px rgb(var(--accent-rgb) / 0.45);"
+  ></div>
+</div>
