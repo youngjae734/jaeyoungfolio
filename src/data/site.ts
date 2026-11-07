@@ -8,7 +8,7 @@ import lifelogSlide2 from '../assets/lifelog-slide2.png';
 import lifelogGraph1 from '../assets/lifelog-graph1.png';
 import lifelogGraph2 from '../assets/lifelog-graph2.png';
 
-/** base 경로(/jaeyoungfolio)를 붙여주는 헬퍼. http(s)로 시작하는 외부 주소는 그대로 둡니다. */
+/** astro.config.mjs의 base 경로를 붙여주는 헬퍼. http(s)로 시작하는 외부 주소는 그대로 둡니다. */
 export const url = (path: string) =>
   /^https?:\/\//.test(path)
     ? path

@@ -4,7 +4,7 @@
 
  포트폴리오 사이트입니다. 지금까지 진행한 프로젝트와 이력, 연락처를 한곳에 모았습니다.
 
-🔗 **https://youngjae734.github.io/jaeyoungfolio/**
+🔗 **https://youngjae734.github.io/**
 
 ## 주요 기능
 
@@ -36,7 +36,7 @@ src/
 
 ```bash
 npm install
-npm run dev      # http://localhost:4321/jaeyoungfolio/
+npm run dev      # http://localhost:4321/
 npm run build    # dist/ 에 정적 파일 생성
 ```
 
