@@ -69,7 +69,3 @@ npm run build    # dist/ 에 정적 파일 생성
 - Email: youngjae734@gmail.com
 - GitHub: [@youngjae734](https://github.com/youngjae734)
 - Blog: [youngjae777.tistory.com](https://youngjae777.tistory.com/)
-
----
-
-디자인 참고: [dharmeshnayak.com](https://dharmeshnayak.com/)
