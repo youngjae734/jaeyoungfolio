@@ -1,0 +1,42 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { profile, url } from '../data/site';
+
+interface Props { title?: string; description?: string }
+const { title, description = `${profile.name} — ${profile.tagline}` } = Astro.props;
+const fullTitle = title ? `${title} · JaeYoung-Jung.dev` : 'JaeYoung-Jung.dev';
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="author" content={profile.name} />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <link rel="icon" type="image/x-icon" href={url('assets/favicon.ico')} />
+    <title>{fullTitle}</title>
+    <script is:inline>document.documentElement.classList.add('js')</script>
+  </head>
+  <body class="flex min-h-dvh flex-col">
+    <Nav />
+    <main class="relative flex-1 overflow-x-clip">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      import { animate, inView } from 'motion';
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduce) {
+        inView('[data-reveal]', (el) => {
+          const delay = Number((el as HTMLElement).dataset.reveal || 0);
+          animate(el, { opacity: [0, 1], y: [24, 0] }, { duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] });
+        }, { margin: '0px 0px -10% 0px' });
+      }
+    </script>
+  </body>
+</html>

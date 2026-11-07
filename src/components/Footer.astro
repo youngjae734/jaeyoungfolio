@@ -1,0 +1,9 @@
+---
+import { profile, url } from '../data/site';
+---
+<footer class="relative z-10 py-10 text-center text-[13px] text-fg-subtle">
+  <div class="container-site flex flex-col items-center justify-between gap-2 sm:flex-row">
+    <span>Copyright &copy; {profile.name} 2026</span>
+    <a href={url('contact')} class="transition hover:text-fg">Contact</a>
+  </div>
+</footer>

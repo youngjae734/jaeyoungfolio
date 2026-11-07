@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Icon from '../components/Icon.astro';
+import { profile } from '../data/site';
+
+const fields = [
+  { id: 'name', label: 'Full name', type: 'text', autocomplete: 'name', error: '이름을 입력해주세요.' },
+  { id: 'email', label: 'Email address', type: 'email', autocomplete: 'email', error: '올바른 이메일을 입력해주세요.' },
+  { id: 'phone', label: 'Phone number', type: 'tel', autocomplete: 'tel', error: '연락처를 입력해주세요.' },
+];
+const input = 'peer w-full rounded-[20px] bg-white/[0.04] px-5 pt-7 pb-3 text-[16px] text-fg outline-none ring-1 ring-white/[0.08] transition placeholder:text-transparent focus:ring-2 focus:ring-accent-soft/70';
+const labelCls = 'pointer-events-none absolute top-2.5 left-5 text-[12px] text-fg-subtle';
+---
+<Base title="Contact">
+  <PageHeader title="Get in touch" subtitle="Let's work together!" />
+
+  <section class="relative z-10 pb-32">
+    <div class="container-site">
+      <div data-reveal class="card mx-auto max-w-[640px] p-7 sm:p-10">
+        <form id="contactForm" class="grid gap-4" novalidate>
+          {fields.map((f) => (
+            <div>
+              <div class="relative">
+                <input id={f.id} name={f.id} type={f.type} autocomplete={f.autocomplete} required placeholder={f.label} class={input} />
+                <label for={f.id} class={labelCls}>{f.label}</label>
+              </div>
+              <p class="mt-1.5 hidden px-2 text-[13px] text-rose-300" data-error-for={f.id}>{f.error}</p>
+            </div>
+          ))}
+          <div>
+            <div class="relative">
+              <textarea id="message" name="message" rows="6" required placeholder="Message" class={`${input} resize-none`}></textarea>
+              <label for="message" class={labelCls}>Message</label>
+            </div>
+            <p class="mt-1.5 hidden px-2 text-[13px] text-rose-300" data-error-for="message">메시지를 입력해주세요.</p>
+          </div>
+          <button type="submit" class="btn-pill mt-2 w-full bg-accent text-white" style="background: linear-gradient(180deg, #8b5cf6, #7c3aed)">
+            Submit
+          </button>
+          <p class="text-center text-[13px] text-fg-subtle">
+            Submit을 누르면 메일 앱이 열리고 작성한 내용이 채워져요. 또는
+            <a href={`mailto:${profile.email}`} class="text-fg-muted underline underline-offset-4 hover:text-fg">{profile.email}</a>
+          </p>
+        </form>
+      </div>
+
+      <div data-reveal="0.1" class="mt-10 flex items-center justify-center gap-3">
+        <a href={profile.github} target="_blank" rel="noopener" class="btn-pill h-12 px-6 text-[15px]"><Icon name="github" /> GitHub</a>
+        <a href={profile.blog} target="_blank" rel="noopener" class="btn-pill h-12 px-6 text-[15px]"><Icon name="pen" /> Blog</a>
+      </div>
+    </div>
+  </section>
+
+  <script define:vars={{ email: profile.email }}>
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let ok = true;
+      for (const el of form.querySelectorAll('input, textarea')) {
+        const valid = el.value.trim() !== '' && el.checkValidity();
+        form.querySelector(`[data-error-for="${el.id}"]`).classList.toggle('hidden', valid);
+        if (!valid) ok = false;
+      }
+      if (!ok) return;
+      const v = (id) => form.querySelector('#' + id).value.trim();
+      const subject = `[Portfolio] ${v('name')}님의 메시지`;
+      const body = `${v('message')}\n\n—\n이름: ${v('name')}\n이메일: ${v('email')}\n연락처: ${v('phone')}`;
+      location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+  </script>
+</Base>

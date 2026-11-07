@@ -1,0 +1,85 @@
+@import 'tailwindcss';
+@import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
+@import '@fontsource/instrument-serif/400.css';
+@import '@fontsource/instrument-serif/400-italic.css';
+
+@theme {
+  --font-sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  /* 헤드라인 폰트: 여기만 바꾸면 전체 제목 폰트가 바뀝니다 */
+  --font-display: 'Instrument Serif', 'Pretendard Variable', serif;
+
+  --color-ink: #000;
+  --color-card: #141414;
+  --color-card-hover: #1a1a1a;
+  --color-line: rgb(255 255 255 / 0.08);
+
+  --color-fg: rgb(255 255 255 / 0.96);
+  --color-fg-muted: rgb(255 255 255 / 0.56);
+  --color-fg-subtle: rgb(255 255 255 / 0.4);
+
+  --color-accent: #7c3aed;
+  --color-accent-soft: #a78bfa;
+  --color-accent-deep: #2e1065;
+}
+
+@layer base {
+  html {
+    background: var(--color-ink);
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ink font-sans text-fg antialiased;
+    word-break: keep-all;
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: #fff;
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-[1000px] px-4 sm:px-6 lg:px-0;
+  }
+  .card {
+    @apply rounded-[28px] bg-card sm:rounded-[40px];
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.04);
+  }
+  .heading-section {
+    @apply font-display text-[44px] leading-none tracking-[-0.4px] text-fg sm:text-[64px];
+  }
+  .heading-card {
+    @apply font-display text-[32px] leading-[1.2] tracking-[-0.2px] text-fg sm:text-[40px];
+  }
+  .label {
+    @apply text-[13px] leading-7 tracking-wide text-fg-subtle uppercase sm:text-[14px];
+  }
+  .body-muted {
+    @apply text-[16px] leading-[1.7] text-fg-muted sm:text-[18px];
+  }
+  .btn-pill {
+    @apply inline-flex h-14 items-center justify-center gap-2 rounded-full px-8 text-[16px] text-fg transition;
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.1), rgb(255 255 255 / 0.04));
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1);
+  }
+  .btn-pill:hover {
+    background: linear-gradient(180deg, rgb(167 139 250 / 0.28), rgb(124 58 237 / 0.14));
+  }
+  .icon-circle {
+    @apply inline-flex size-10 items-center justify-center rounded-full text-fg-muted transition;
+    background: rgb(255 255 255 / 0.08);
+  }
+}
+
+/* 스크롤 등장 애니메이션 (JS가 켜졌을 때만 숨김) */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
