@@ -31,11 +31,64 @@ const fullTitle = title ? `${title} · JaeYoung-Jung.dev` : 'JaeYoung-Jung.dev';
     <script>
       import { animate, inView } from 'motion';
       const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // 등장 효과 프리셋 (레퍼런스 사이트의 Framer 설정값 기준)
+      const intros = {
+        // 배경 그라데이션: 4초에 걸쳐 천천히
+        fade: { keyframes: { opacity: [0, 1] }, options: { duration: 4, delay: 0.5, ease: [0.12, 0.23, 0.5, 1] } },
+        // 원: 50% 크기에서 살짝 튕기며
+        pop: { keyframes: { opacity: [0, 1], scale: [0.5, 1] }, options: { type: 'spring', bounce: 0.2, duration: 2, delay: 0.5 } },
+        // 글자: 24px 아래에서 올라오며
+        rise: { keyframes: { opacity: [0, 1], y: [24, 0] }, options: { type: 'spring', bounce: 0.2, duration: 0.8, delay: 1 } },
+        // 버튼: 제자리에서 나타남
+        appear: { keyframes: { opacity: [0, 1] }, options: { type: 'spring', bounce: 0.2, duration: 0.8, delay: 1.2 } },
+      } as const;
+
       if (!reduce) {
         inView('[data-reveal]', (el) => {
           const delay = Number((el as HTMLElement).dataset.reveal || 0);
           animate(el, { opacity: [0, 1], y: [24, 0] }, { duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] });
         }, { margin: '0px 0px -10% 0px' });
+
+        // 첫 화면은 로드 직후, 하단 원 등은 화면에 들어올 때 한 번 실행
+        inView('[data-intro]', (el) => {
+          const node = el as HTMLElement;
+          const preset = intros[node.dataset.intro as keyof typeof intros] ?? intros.appear;
+          const delay = node.dataset.delay !== undefined ? Number(node.dataset.delay) : preset.options.delay;
+          animate(node, preset.keyframes, { ...preset.options, delay });
+        });
+
+        // 네비: 위에서 120px 튕기듯 내려옴
+        const nav = document.querySelector<HTMLElement>('[data-nav]');
+        if (nav) {
+          const spring = { type: 'spring', bounce: 0.2, duration: 0.6 } as const;
+          const show = (delay = 0) => {
+            nav.inert = false;
+            animate(nav, { opacity: 1, y: 0 }, { ...spring, delay });
+          };
+          const hide = () => {
+            nav.inert = true;
+            animate(nav, { opacity: 0, y: -120 }, spring);
+          };
+
+          if (nav.hasAttribute('data-autohide')) {
+            // 홈: 맨 위에서는 숨기고 160px 넘게 내리면 등장, 다시 올라가면 숨김
+            let shown = false;
+            nav.inert = true;
+            animate(nav, { y: -120 }, { duration: 0 });
+            const update = () => {
+              const next = scrollY > 160;
+              if (next === shown) return;
+              shown = next;
+              next ? show() : hide();
+            };
+            addEventListener('scroll', update, { passive: true });
+            update();
+          } else {
+            animate(nav, { y: -120 }, { duration: 0 });
+            show(0.2);
+          }
+        }
       }
     </script>
   </body>

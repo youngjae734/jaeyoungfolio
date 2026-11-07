@@ -6,7 +6,7 @@ const { title, subtitle } = Astro.props;
 <header class="relative pt-44 pb-16 text-center sm:pt-56 sm:pb-20">
   <Glow position="top" class="!h-[620px]" />
   <div class="container-site relative z-10">
-    <h1 data-reveal class="font-display text-[60px] leading-none tracking-[-0.02em] text-fg sm:text-[88px]">{title}</h1>
-    {subtitle && <p data-reveal="0.1" class="body-muted mt-5">{subtitle}</p>}
+    <h1 data-intro="rise" data-delay="0.6" class="font-display text-[60px] leading-none tracking-[-0.02em] text-fg sm:text-[88px]">{title}</h1>
+    {subtitle && <p data-intro="rise" data-delay="0.8" class="body-muted mt-5">{subtitle}</p>}
   </div>
 </header>
